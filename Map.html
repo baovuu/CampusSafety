@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Draw on map</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+        <style>
+            body {
+                background-color: #4286f4;
+                text-align: center;
+            }
+            body h1 {
+                color: #041a3d;
+            }
+            div {
+                text-align:center;
+            }
+            canvas {
+                cursor:crosshair;
+                background:url(17105MUSA-Campus-Map-for-Survey-Instrument_REV-2_FINAL-1.jpg);
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Marymount University Campus Map Survey</h1>
+
+        <div class="menuBar">
+            <input type="button" value="Blue" id="blue" onclick="button1()" />
+            <input type="button" value="Red" id="red" onclick="button2()" />
+            <input type="button" value="Green" id="green" onclick="button3()" />
+            <input type="button" value="Clear" id="clear" onclick="button4()" />
+        </div>
+        
+        <div class="mapCanvas">
+            <canvas id="canvas" width="700" height="489"></canvas>
+        </div>
+   
+        <script type="text/javascript">
+            var ctx = document.getElementById("canvas").getContext("2d");
+            var pointSize = 4; // Change according to the size of the point.
+            var rect;
+            var x;
+            var y;
+            
+            $("#blue").click(function() {
+                ctx.fillStyle = "blue";
+                $("#canvas").click(function(e){
+                    getPosition(e);
+                });
+                
+            });
+
+            $("#red").click(function() {   
+                ctx.fillStyle = "red";
+                $("canvas").click(function(e){
+                    getPosition(e);
+                });     
+            });
+
+            $("#green").click(function() {   
+                ctx.fillStyle = "green";
+                $("canvas").click(function(e){
+                    getPosition(e);
+                });     
+            });
+
+            $("#clear").click(function() {
+                ctx.clearRect(0,0, canvas.width, canvas.height);
+            });
+        
+        /*
+            $("#blue").click(function () {$("#canvas").click(function(e){
+                    printCoordinate();
+                });
+            });
+          */
+            
+            function getPosition(event){
+                rect = canvas.getBoundingClientRect();
+                x = event.clientX - rect.left; // x == the location of the click in the document - the location (relative to the left) of the canvas in the document
+                y = event.clientY - rect.top; // y == the location of the click in the document - the location (relative to the top) of the canvas in the document    
+                
+                drawCoordinates(x,y);
+            }
+
+            function drawCoordinates(x,y){
+                ctx.beginPath(); //Start path
+                ctx.arc(x, y, pointSize, 0, Math.PI * 2, true); // Draw a point using the arc function of the canvas with a point structure.
+                ctx.fill(); // Close the path and fill.
+            }
+
+            function printCoordinate() {
+                    rect = canvas.getBoundingClientRect();
+                    x = event.clientX - rect.left; // x == the location of the click in the document - the location (relative to the left) of the canvas in the document
+                    y = event.clientY - rect.top; // y == the location of the click in the document - the location (relative to the top) of the canvas in the document    
+                    console.log("Coordinate: " + x + "  ,  " + y);
+            }
+
+        /******************************* Button Effect *********************************/
+            function button1() {
+                document.getElementById('blue').disabled = true;
+                document.getElementById('red').disabled = false;
+                document.getElementById('green').disabled = false;
+            }
+            function button2() {
+                document.getElementById('blue').disabled = false;
+                document.getElementById('red').disabled = true;
+                document.getElementById('green').disabled = false;
+            }
+            function button3() {
+                document.getElementById('blue').disabled = false;
+                document.getElementById('red').disabled = false;
+                document.getElementById('green').disabled = true;
+            }
+            function button4() {
+                document.getElementById('blue').disabled = false;
+                document.getElementById('red').disabled = false;
+                document.getElementById('green').disabled = false;
+            }
+        
+        </script>
+  </body>
+</html>
